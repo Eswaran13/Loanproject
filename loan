@@ -1,0 +1,223 @@
+
+import java.util.Scanner;
+
+public class loan {
+
+    static Scanner scanner = new Scanner(System.in);
+    static String bankName = "Global Trust Bank";
+    static int numberOfBranches = 125;
+    static double fineAmount = 500.00;
+
+    public static void main(String[] args) {
+        displayBankDetails();
+        login();
+    }
+
+    public static void displayBankDetails() {
+        System.out.println("===============================================================");
+        System.out.println("\t\t\t\t" + bankName);
+        System.out.println("===============================================================");
+        System.out.println("Number of Branches: " + numberOfBranches);
+        System.out.println("===============================================================");
+    }
+
+    public static void login() {
+        System.out.println("===============================================================");
+        System.out.println("\t\t\t\tWelcome to Loan Investment System");
+        System.out.println("===============================================================");
+        System.out.print("\n\t\t\t 1. Login");
+        System.out.print("\t\t\t 2. Apply for Loan");
+        System.out.print("\t\t\t 3. Exit");
+        System.out.println("\n===============================================================");
+        System.out.print("\n Select the option: ");
+        int n = scanner.nextInt();
+        switch (n) {
+            case 1:
+                applyLogin();
+                break;
+            case 2:
+                selectLoanType();
+                break;
+            case 3:
+                exitSystem();
+                break;
+            default:
+                applyFine("Invalid option selected.");
+                login();
+        }
+    }
+
+    public static void applyLogin() {
+        scanner.nextLine();
+        System.out.println("**************************************************************");
+        System.out.println("\t\tENTER YOUR LOGIN DETAILS");
+        System.out.println("**************************************************************");
+
+        System.out.print("Enter your Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter your UserID: ");
+        String userID = scanner.nextLine();
+        System.out.print("Enter your Password: ");
+        String password = scanner.nextLine();
+        System.out.print("Enter your Mobile Number: ");
+        String mobileNumber = scanner.nextLine();
+        System.out.print("Enter your Age: ");
+        int age = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter your Aadhar Number: ");
+        String aadharNumber = scanner.nextLine();
+
+        if (validateLoginDetails(name, userID, password, mobileNumber, age, aadharNumber)) {
+            System.out.println("===============================================================");
+            System.out.println("\t\t\t\t\tLogin Successfully!");
+            System.out.println("===============================================================");
+            securityProcess();
+        } else {
+            applyFine("Invalid login details. Please try again.");
+        }
+
+        login();
+    }
+
+    public static boolean validateLoginDetails(String name, String userID, String password, String mobileNumber, int age, String aadharNumber) {
+        if (name.isEmpty() || userID.isEmpty() || password.isEmpty() || mobileNumber.isEmpty() || age <= 0 || aadharNumber.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void securityProcess() {
+        System.out.println("**************************************************************");
+        System.out.println("\t\tSECURITY PROCESS");
+        System.out.println("**************************************************************");
+        System.out.print("Enter the security code sent to your mobile: ");
+        String securityCode = scanner.nextLine();
+        if (securityCode.equals("1234")) {
+            System.out.println("Security process completed successfully.");
+        } else {
+            applyFine("Invalid security code. Please try again.");
+            login();
+        }
+    }
+
+    public static void selectLoanType() {
+        System.out.println("You have selected to apply for a loan.");
+        System.out.println("**************************************************************");
+        System.out.println("\t\t\tSELECT LOAN TYPE");
+        System.out.println("**************************************************************");
+        System.out.println("1. Home Loan");
+        System.out.println("2. Personal Loan");
+        System.out.println("3. Education Loan");
+        System.out.println("4. Car Loan");
+        System.out.println("5. Go Back");
+        System.out.print("Select the loan type: ");
+        int loanType = scanner.nextInt();
+
+        switch (loanType) {
+            case 1:
+                applyHomeLoan();
+                break;
+            case 2:
+                applyPersonalLoan();
+                break;
+            case 3:
+                applyEducationLoan();
+                break;
+            case 4:
+                applyCarLoan();
+                break;
+            case 5:
+                login();
+                break;
+            default:
+                applyFine("Invalid loan type selected.");
+                selectLoanType();
+        }
+    }
+
+    public static void applyHomeLoan() {
+        System.out.println("You selected Home Loan.");
+        if (checkEligibility()) {
+            System.out.println("**************************************************************");
+            System.out.println("\t\tHOME LOAN DETAILS");
+            System.out.println("**************************************************************");
+            processLoan("Home Loan");
+        }
+        login();
+    }
+
+    public static void applyPersonalLoan() {
+        System.out.println("You selected Personal Loan.");
+        if (checkEligibility()) {
+            System.out.println("**************************************************************");
+            System.out.println("\t\tPERSONAL LOAN DETAILS");
+            System.out.println("**************************************************************");
+            processLoan("Personal Loan");
+        }
+        login();
+    }
+
+    public static void applyEducationLoan() {
+        System.out.println("You selected Education Loan.");
+        if (checkEligibility()) {
+            System.out.println("**************************************************************");
+            System.out.println("\t\tEDUCATION LOAN DETAILS");
+            System.out.println("**************************************************************");
+            processLoan("Education Loan");
+        }
+        login();
+    }
+
+    public static void applyCarLoan() {
+        System.out.println("You selected Car Loan.");
+        if (checkEligibility()) {
+            System.out.println("**************************************************************");
+            System.out.println("\t\tCAR LOAN DETAILS");
+            System.out.println("**************************************************************");
+            processLoan("Car Loan");
+        }
+        login();
+    }
+
+    public static boolean checkEligibility() {
+        System.out.println("Checking loan eligibility...");
+        return true;
+    }
+
+    public static void processLoan(String loanType) {
+        System.out.print("Enter the loan amount: ");
+        double amount = scanner.nextDouble();
+        System.out.print("Enter the loan tenure (years): ");
+        int tenure = scanner.nextInt();
+        double interestRate = getInterestRate(loanType);
+        double totalAmount = amount + (amount * interestRate * tenure);
+        System.out.println("Processing " + loanType + " for amount: " + amount + " for tenure: " + tenure + " years.");
+        System.out.println("Total amount payable after interest: " + totalAmount);
+        System.out.println("**************************************************************");
+    }
+
+    public static double getInterestRate(String loanType) {
+        switch (loanType) {
+            case "Home Loan":
+                return 0.06;
+            case "Personal Loan":
+                return 0.12;
+            case "Education Loan":
+                return 0.05;
+            case "Car Loan":
+                return 0.08;
+            default:
+                return 0.10;
+        }
+    }
+
+    public static void applyFine(String message) {
+        System.out.println(message);
+        System.out.println("A fine of " + fineAmount + " will be applied for this invalid operation.");
+    }
+
+    public static void exitSystem() {
+        System.out.println("Thank you for using " + bankName + ". Goodbye!");
+        System.exit(0);
+    }
+}
